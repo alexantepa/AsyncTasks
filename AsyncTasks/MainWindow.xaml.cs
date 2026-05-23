@@ -109,10 +109,10 @@ namespace AsyncTasks
                 Application.Current.Resources.MergedDictionaries.Remove(theme);
             }
 
-            // Добавляем новую тему
+            // Добавляем новую тему с правильным URI для ресурсов WPF
             var newTheme = new ResourceDictionary
             {
-                Source = new Uri(themeName, UriKind.RelativeOrAbsolute)
+                Source = new Uri($"pack://application:,,,/{themeName}", UriKind.Absolute)
             };
             Application.Current.Resources.MergedDictionaries.Add(newTheme);
         }
