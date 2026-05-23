@@ -87,6 +87,29 @@ namespace AsyncTasks
             progBuffer.AppendText(text);
         }
 
-        
+        private void ThemeCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            ApplyTheme("DarkTheme.xaml");
+        }
+
+        private void ThemeCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ApplyTheme("LightTheme.xaml");
+        }
+
+        private void ApplyTheme(string themeName)
+        {
+            var currentTheme = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString.Contains("Theme.xaml") == true);
+            if (currentTheme != null)
+            {
+                Application.Current.Resources.MergedDictionaries.Remove(currentTheme);
+            }
+
+            var newTheme = new ResourceDictionary
+            {
+                Source = new Uri(themeName, UriKind.RelativeOrAbsolute)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(newTheme);
+        }
     }
 }
