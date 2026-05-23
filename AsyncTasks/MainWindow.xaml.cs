@@ -99,12 +99,17 @@ namespace AsyncTasks
 
         private void ApplyTheme(string themeName)
         {
-            var currentTheme = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source?.OriginalString.Contains("Theme.xaml") == true);
-            if (currentTheme != null)
+            // Удаляем все существующие темы
+            var themesToRemove = Application.Current.Resources.MergedDictionaries
+                .Where(d => d.Source?.OriginalString.EndsWith("Theme.xaml") == true)
+                .ToList();
+            
+            foreach (var theme in themesToRemove)
             {
-                Application.Current.Resources.MergedDictionaries.Remove(currentTheme);
+                Application.Current.Resources.MergedDictionaries.Remove(theme);
             }
 
+            // Добавляем новую тему
             var newTheme = new ResourceDictionary
             {
                 Source = new Uri(themeName, UriKind.RelativeOrAbsolute)
